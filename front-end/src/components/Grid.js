@@ -1,7 +1,7 @@
 import React from 'react'
 import Card from './Card'
 
-const Grid = ({ photos, isLoading }) => {
+const Grid = ({ isLoading, photos }) => {
 	return isLoading ? (
 		<h1>Loading...</h1>
 	) : (

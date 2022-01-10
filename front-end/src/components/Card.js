@@ -1,11 +1,7 @@
 import React from 'react'
 
-const Card = ({ item }) => {
-	return (
-		<div className="card">
-            {item}
-		</div>
-	)
+const Card = ({ photo }) => {
+	return <img src={photo.img_src} alt="" />
 }
 
 export default Card

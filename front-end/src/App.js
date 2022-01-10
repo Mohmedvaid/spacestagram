@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Header from './components/ui/Header'
-import axios from 'axios'
+import Grid from './components/Grid'
 import './App.css'
+import axios from 'axios'
 
 function App() {
 	const [items, setItems] = useState([])
@@ -21,6 +22,7 @@ function App() {
 	return (
 		<div className="container">
 			<Header />
+			<Grid isLoading={isLoading} photos={items.photos} />
 		</div>
 	)
 }

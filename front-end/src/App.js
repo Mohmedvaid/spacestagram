@@ -11,7 +11,7 @@ function App() {
 	let marsPhotoApi = `https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?api_key=DEMO_KEY&sol=1000&page=2`
 	useEffect(() => {
 		const fetchItems = async () => {
-			const result = await axios(marsPhotoApi)
+			const result = await axios(imageAndVidApi)
 			setItems(result.data)
 			setisLoading(false)
 		}
@@ -20,7 +20,7 @@ function App() {
 	return (
 		<div className="container">
 			<Header />
-			<Grid isLoading={isLoading} photos={items.photos} />
+			<Grid isLoading={isLoading} photos={items} />
 		</div>
 	)
 }

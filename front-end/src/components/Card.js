@@ -1,7 +1,6 @@
 import React from 'react'
 
 const Card = ({ photo }) => {
-	console.log('photo===>', photo)
 	return (
 		<div className="card">
 			<div className="card-inner">

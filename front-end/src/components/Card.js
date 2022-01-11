@@ -6,8 +6,8 @@ const Card = ({ photo }) => {
   let dateCreated = new Date(data.date_created).toLocaleDateString('en-US');
   // console.log(data)
   return (
-    <div className="col-lg-3 col-md-4 col-sm-5 m-t-10">
-      <div className="card mb-4">
+    <div className="m-1">
+      <div className="card">
         <img className="card-img-top img-fluid" src={imgSrc} alt={data.description} />
         <div className="card-body">
           <h4 className="card-title text-dark">{data.title}</h4>

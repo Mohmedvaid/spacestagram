@@ -62,6 +62,18 @@ input[type='text'] {
   outline: none;
 }
 
+.likeBtn {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.disable-text-selection {
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 /* .cards {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

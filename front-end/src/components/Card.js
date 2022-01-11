@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BsHeartFill, BsHeart } from 'react-icons/bs';
 
-
-
 const Card = ({ photo, addNewLike, removeLike, isLikedImage }) => {
   let data = photo.data[0];
   let imgSrc = photo.links[0].href;

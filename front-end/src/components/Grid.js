@@ -27,9 +27,9 @@ const Grid = ({ isLoading, photos }) => {
 
   return isLoading ? (
     <Spinner />
-  ) : (
+  ) : ( photos.length > 0 ? (
     <section className="row">
-      {/* Masonry for better layout and filling empty spaced in columns and rows */}
+      {/* Masonry for better layout for filling empty spaces in columns and rows */}
       <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 576: 2, 750: 3, 900: 4 }}>
         <Masonry>
           {photos.map((photo) => (
@@ -37,7 +37,9 @@ const Grid = ({ isLoading, photos }) => {
           ))}
         </Masonry>
       </ResponsiveMasonry>
-    </section>
+    </section>):(
+		<p className="center">Ops, looks like there are no result. Make sure you spelled it right</p>
+	)
   );
 };
 

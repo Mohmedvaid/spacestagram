@@ -13,6 +13,7 @@ function App() {
   let imageAndVidApi = `https://images-api.nasa.gov/search?q=${query}&media_type=image&page=1`;
   const fetchItems = async () => {
     setisLoading(true);
+    if(query === '') setQuery('galaxy');
     const result = await axios(imageAndVidApi);
     setCollection(result.data.collection);
     setPhotos(result.data.collection.items);

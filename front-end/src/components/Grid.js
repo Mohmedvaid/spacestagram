@@ -1,10 +1,11 @@
 import React from 'react'
 import Card from './Card'
+import Spinner from './ui/Spinner'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
 
 const Grid = ({ isLoading, photos }) => {
 	return isLoading ? (
-		<h1>Loading...</h1>
+		<Spinner />
 	) : (
 		<section className="row">
 			<ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 576: 2, 750: 3, 900: 4 }}>

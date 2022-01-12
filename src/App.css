@@ -74,6 +74,11 @@ input[type='text'] {
   -ms-user-select: none;
   user-select: none;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
 /* .cards {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

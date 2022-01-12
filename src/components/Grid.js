@@ -28,9 +28,9 @@ const Grid = ({ isLoading, photos }) => {
   return isLoading ? (
     <Spinner />
   ) : ( photos.length > 0 ? (
-    <section className="row">
+    <section className="row p-4" tabIndex={0}>
       {/* Masonry for better layout for filling empty spaces in columns and rows */}
-      <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 576: 2, 750: 3, 900: 4 }}>
+      <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 576: 2, 750: 3 }}>
         <Masonry>
           {photos.map((photo) => (
             <Card key={photo.data[0].nasa_id} photo={photo} addNewLike={(id) => addNewLike(id)} removeLike={(id) => removeLike(id)} isLikedImage={likedImages.includes(photo.data[0].nasa_id)}></Card>

@@ -34,6 +34,19 @@ a {
 	-ms-user-select: none;
 	user-select: none;
 }
+.max-width{
+	width: 100%;
+}
+.invalid-val{
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 1em;
+    color: #dc3545;
+}
+
+.bg-fb-blue{
+	background-color: #0071bc;
+}
 
 /* header styles */
 header {
@@ -45,17 +58,6 @@ header img {
 }
 
 /* rest items */
-
-#searchBox {
-	display: block;
-	padding: 10px;
-	font-size: 20px;
-	border: 0;
-	border-radius: 5px;
-	width: 40%;
-	/* margin: auto; */
-	outline: none;
-}
 .search-btn {
 	width: 200px;
 }
@@ -83,17 +85,23 @@ header img {
 
 @media screen and (max-width: 600px) {
 	/* search */
-	#searchBox {
-		width: 80%;
-	}
 	.search {
 		margin-bottom: 30px;
 	}
-	.search-btn {
-		width: 100px;
-	}
+
 	/* cards */
 	.cards-grid {
 		margin: 0;
+	}
+
+	/* misc */
+	.mb-sm-1{
+		margin-bottom: 0.5rem!important;
+	}
+	.mb-sm-2{
+		margin-bottom: 0.5rem!important;
+	}
+	.mb-sm-4{
+		margin-bottom: 1rem!important;
 	}
 }

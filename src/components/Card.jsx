@@ -5,6 +5,7 @@ import PropTypes from "prop-types"
 function Card({ photo, addNewLike, removeLike, isLikedImage }) {
   const data = photo.data[0]
   const imgSrc = photo.links[0].href
+  const { title } = data
   const dateCreated = new Date(data.date_created).toLocaleDateString("en-US")
   const [isLiked, setIsLiked] = useState(isLikedImage)
   const toggleLike = () => {
@@ -17,7 +18,8 @@ function Card({ photo, addNewLike, removeLike, isLikedImage }) {
     } else {
       document.execCommand("copy", true, imgSrc)
     }
-    alert("Image URL copied to clipboard")
+    // eslint-disable-next-line no-alert
+    alert(`${title}: Image URL copied to clipboard`)
   }
 
   useEffect(() => {
@@ -32,10 +34,10 @@ function Card({ photo, addNewLike, removeLike, isLikedImage }) {
           loading="lazy"
           className="card-img-top img-fluid"
           src={imgSrc}
-          alt={`description: ${data.title}`}
+          alt={`description: ${title}`}
         />
         <div className="card-body">
-          <h4 className="card-title text-dark text-center">{data.title}</h4>
+          <h4 className="card-title text-dark text-center">{title}</h4>
           <div className="d-flex justify-content-between align-items-center my-1">
             {/* disbaling text selection on ancher below as clicking like button multiple times was highligting the date text */}
             <button
@@ -57,7 +59,7 @@ function Card({ photo, addNewLike, removeLike, isLikedImage }) {
             </button>
             <button
               type="button"
-              className="btn btn-info text-light btn-sm copyBtn m-1 cursor-pointer"
+              className="btn bg-fb-blue text-light btn-sm copyBtn m-1 cursor-pointer"
               tabIndex={0}
               onClick={() => copyImageUrl()}
             >

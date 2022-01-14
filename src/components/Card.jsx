@@ -19,7 +19,7 @@ function Card({ photo, addNewLike, removeLike, isLikedImage }) {
       document.execCommand("copy", true, imgSrc)
     }
     // eslint-disable-next-line no-alert
-    alert(`${title}: Image URL copied to clipboard`)
+    alert(`${title} image URL copied to clipboard`)
   }
 
   useEffect(() => {

@@ -24,7 +24,7 @@ function Search({ getQuery }) {
           e.preventDefault()
         }}
       >
-        <div className="col-12 col-md-8 mb-sm-4">
+        <div className="col-12 mb-3">
           <label htmlFor="searchBox" className="max-width">
             Search
             <span className="text-danger bold" aria-label="required field">
@@ -35,7 +35,7 @@ function Search({ getQuery }) {
               id="searchBox"
               type="text"
               className="form-control"
-              placeholder="Enter keywords to begin search"
+              placeholder="'stars', 'earth', 'apollo 11' etc"
               value={text}
               onChange={(e) => setText(e.target.value)}
             />
@@ -44,7 +44,7 @@ function Search({ getQuery }) {
             <b>Please provide a search term.</b>
           </div>
         </div>
-        <div className="col-12 col-md-2 mb-sm-4">
+        <div className="col-6 d-flex justify-content-end">
           <label htmlFor="fromDate">
             From Date
             <input
@@ -57,7 +57,7 @@ function Search({ getQuery }) {
             />
           </label>
         </div>
-        <div className="col-12 col-md-2 mb-sm-4">
+        <div className="col-6  d-flex justify-content-start">
           <label htmlFor="toDate">
             To Date
             <input

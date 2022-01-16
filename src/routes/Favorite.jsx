@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import Grid from "../components/Grid"
+import Header from "../components/ui/Header"
 
 function Favorite() {
   const [savedImages, setSavedImages] = useState(
@@ -8,7 +9,7 @@ function Favorite() {
 
   return (
     <div>
-      <h1>My Favorites</h1>
+      <Header title="My Favorite Photos" />
       <Grid isLoading={false} photos={savedImages} />
     </div>
   )

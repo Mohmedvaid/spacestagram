@@ -4,8 +4,8 @@ import logo from "../../img/logo.png"
 
 function NavBar() {
   return (
-    <header className="mb-5">
-      <nav className="navbar navbar-expand-lg sticky-top navbar-light bg-light px-5">
+    <header className="mb-5 sticky-top border-bottom border-dark ">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light px-5 ">
         <a className="navbar-brand" href="/spacestagram">
           SPACESTAGRAM
         </a>

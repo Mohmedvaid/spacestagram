@@ -3,6 +3,7 @@ import axios from "axios"
 import Header from "../components/ui/Header"
 import Search from "../components/ui/Search"
 import Grid from "../components/Grid"
+import ScrollUpButton from "../components/ui/ScrollUpButton"
 
 function Home() {
   const [isLoading, setisLoading] = useState(true)
@@ -25,9 +26,10 @@ function Home() {
 
   return (
     <div className="container-fluid">
-      <Header />
+      <Header title="Browse images from NASA" />
       <Search getQuery={(q) => setQuery(q)} />
       <Grid isLoading={isLoading} photos={photos} />
+      <ScrollUpButton />
       {/* <Pagination links={pagination} /> */}
     </div>
   )

@@ -6,7 +6,7 @@ function NavBar() {
   return (
     <header className="mb-5">
       <nav className="navbar navbar-expand-lg sticky-top navbar-light bg-light px-5">
-        <a className="navbar-brand" href="/">
+        <a className="navbar-brand" href="/spacestagram">
           SPACESTAGRAM
         </a>
         <button
@@ -23,7 +23,7 @@ function NavBar() {
         <div className="collapse navbar-collapse" id="navbarText">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item active">
-              <Link to="/" className="nav-link">
+              <Link to="/spacestagram" className="nav-link">
                 Home
               </Link>
             </li>

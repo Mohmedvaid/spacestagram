@@ -1,38 +1,48 @@
-import React from "react"
+import React, { useState } from "react"
 import PropTypes from "prop-types"
 
-function Pagination({ links }) {
-  const prev = links.find((link) => link.rel === "prev")
-  const next = links.find((link) => link.rel === "next")
-  console.log(links)
-  if (links.length === 0) return null
-  //   console.log(prev)
-  //   console.log(next)
-  // TODO handle pagination click and update api url for pagination
+function Pagination({ currentPage, prevPage, nextPage, handlePageChange }) {
+  const handleNextPage = () => {
+    console.log(currentPage)
+    handlePageChange(currentPage + 1)
+  }
+  const handlePrevPage = () => {
+    handlePageChange(currentPage - 1)
+  }
   return (
-    <nav aria-label="...">
-      <ul className="pagination">
-        <li className={prev ? "page-item" : "page-item disabled"}>
-          <a className="page-link" href={prev ? prev.href : "#"} tabIndex="-1">
+    <nav aria-label="pagination">
+      <ul className="pagination justify-content-center">
+        <li className={prevPage !== 0 ? "page-item" : "page-item disabled"}>
+          <button
+            type="button"
+            aria-label="Previous"
+            className="page-link"
+            tabIndex={prevPage === 0 ? -1 : 0}
+            onClick={() => handlePrevPage(prevPage - 1)}
+          >
             Previous
-          </a>
+          </button>
         </li>
-        {/* <li className="page-item active">
-          <a className="page-link" href="/">
-            2 <span className="sr-only">(current)</span>
-          </a>
-        </li> */}
-        <li className="page-item">
-          <a className="page-link" href={next.href}>
+        <li className={nextPage !== 0 ? "page-item" : "page-item disabled"}>
+          <button
+            type="button"
+            aria-label="Next"
+            className="page-link"
+            tabIndex={prevPage === 0 ? -1 : 0}
+            onClick={() => handleNextPage(currentPage + 1)}
+          >
             Next
-          </a>
+          </button>
         </li>
       </ul>
     </nav>
   )
 }
 Pagination.propTypes = {
-  links: PropTypes.instanceOf(Object).isRequired,
+  currentPage: PropTypes.number.isRequired,
+  prevPage: PropTypes.number.isRequired,
+  nextPage: PropTypes.number.isRequired,
+  handlePageChange: PropTypes.func.isRequired,
 }
 
 export default Pagination

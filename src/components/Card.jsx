@@ -23,7 +23,7 @@ function Card({ photo, addNewLike, removeLike, isLikedImage }) {
   }
 
   useEffect(() => {
-    if (isLiked) addNewLike(data.nasa_id)
+    if (isLiked) addNewLike(photo)
     else removeLike(data.nasa_id)
   }, [isLiked])
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
+import { Masonry } from "@mui/lab"
 import PropTypes from "prop-types"
 import Card from "./Card"
 import Spinner from "./ui/Spinner"
@@ -74,27 +74,27 @@ function Grid({ isLoading, photos }) {
     return (
       <section className="cards-grid">
         {/* Masonry for better layout for filling empty spaces in columns and rows */}
-        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 576: 2, 750: 3 }}>
-          <Masonry>
-            {photos.map((photo) => (
-              <Card
-                key={photo.data[0].nasa_id}
-                photo={photo}
-                addNewLike={(newLikedPhoto) => addNewLike(newLikedPhoto)}
-                removeLike={(id) => removeLike(id)}
-                isLikedImage={isLikedImage(photo.data[0].nasa_id)}
-              />
-            ))}
-          </Masonry>
-        </ResponsiveMasonry>
+        <Masonry
+          columns={{ xs: 1, sm: 2, md: 3 }}
+          spacing={2}
+          style={{
+            alignContent: photos.length < 3 ? "start" : "space-between",
+          }}
+        >
+          {photos.map((photo) => (
+            <Card
+              key={photo.data[0].nasa_id}
+              photo={photo}
+              addNewLike={(newLikedPhoto) => addNewLike(newLikedPhoto)}
+              removeLike={(id) => removeLike(id)}
+              isLikedImage={isLikedImage(photo.data[0].nasa_id)}
+            />
+          ))}
+        </Masonry>
       </section>
     )
   }
-  return (
-    <p className="center">
-      Ops, looks like there are no result. Make sure you spelled it right
-    </p>
-  )
+  return <p className="center">Ops, there is nothing here!</p>
 }
 Grid.propTypes = {
   isLoading: PropTypes.bool.isRequired,

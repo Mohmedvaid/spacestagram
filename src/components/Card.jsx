@@ -28,7 +28,7 @@ function Card({ photo, addNewLike, removeLike, isLikedImage }) {
   }, [isLiked])
 
   return (
-    <div className="m-2">
+    <div className="">
       <div className="card" aria-label="card">
         <img
           loading="lazy"

@@ -30,24 +30,20 @@ function Home() {
    * @returns {array} array of photos
    */
   const fetchItems = async () => {
-    setisLoading(true)
     if (query === "") setQuery(defaultQuery)
     return axios(imageAndVidApi)
   }
 
-  /**
-   * update the photos state when the query changes
-   */
-  useEffect(async () => {
-    if (queryChange) {
-      setCurrentPage(1)
+  const setPagination = (paginationLinks) => {
+    if (paginationLinks.length > 0) {
+      setNextPage(
+        paginationLinks.find((link) => link.rel === "next")
+          ? currentPage + 1
+          : 0
+      )
+    } else {
+      setNextPage(0)
     }
-    const result = await fetchItems()
-    const paginationLinks = result.data.collection.links
-    setPhotos(result.data.collection.items)
-    setNextPage(
-      paginationLinks.find((link) => link.rel === "next") ? currentPage + 1 : 0
-    )
     if (queryChange) {
       setPrevPage(0)
     } else {
@@ -57,6 +53,20 @@ function Home() {
           : 0
       )
     }
+  }
+
+  /**
+   * update the photos state when the query changes
+   */
+  useEffect(async () => {
+    setisLoading(true)
+    if (queryChange) setCurrentPage(1)
+
+    const result = await fetchItems()
+    const paginationLinks = result.data.collection.links || []
+
+    setPagination(paginationLinks)
+    setPhotos(result.data.collection.items)
     setQueryChange(false)
     setisLoading(false)
   }, [query, currentPage])

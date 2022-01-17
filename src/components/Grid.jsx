@@ -75,7 +75,7 @@ function Grid({ isLoading, photos }) {
       <section className="cards-grid">
         {/* Masonry for better layout for filling empty spaces in columns and rows */}
         <Masonry
-          columns={{ xs: 1, sm: 2, md: 3 }}
+          columns={{ xs: 1, sm: 2, md: 3, lg: 3 }}
           spacing={2}
           style={{
             alignContent: photos.length < 3 ? "start" : "space-between",

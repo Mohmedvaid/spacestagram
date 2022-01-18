@@ -1,10 +1,9 @@
-import React, { useState } from "react"
+import React from "react"
 import PropTypes from "prop-types"
 
 function Pagination({ currentPage, prevPage, nextPage, handlePageChange }) {
   if (prevPage === 0 && nextPage === 0) return null
   const handleNextPage = () => {
-    console.log(currentPage)
     handlePageChange(currentPage + 1)
   }
   const handlePrevPage = () => {

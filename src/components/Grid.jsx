@@ -83,7 +83,7 @@ function Grid({ isLoading, photos }) {
   }
   if (photos.length > 0) {
     return (
-      <section className="cards-grid m-5">
+      <section className="cards-grid">
         <button
           aria-label="toggle masonary layout"
           type="button"

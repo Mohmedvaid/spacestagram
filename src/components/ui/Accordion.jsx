@@ -6,7 +6,7 @@ function Accordion({ id, title, description }) {
   return (
     <div className="accordion py-2" id={`accordion${id}`}>
       <div className="accordion-item">
-        <h2 className="accordion-header" id="flush-headingOne">
+        <h2 className="accordion-header" id={`flush-headingOne${id}`}>
           <button
             className="accordion-button collapsed"
             type="button"

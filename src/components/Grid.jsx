@@ -73,24 +73,15 @@ function Grid({ isLoading, photos }) {
   if (photos.length > 0) {
     return (
       <section className="cards-grid">
-        {/* Masonry for better layout for filling empty spaces in columns and rows */}
-        <Masonry
-          columns={{ xs: 1, sm: 2, md: 3, lg: 3 }}
-          spacing={2}
-          style={{
-            alignContent: photos.length < 3 ? "start" : "space-between",
-          }}
-        >
-          {photos.map((photo) => (
-            <Card
-              key={photo.data[0].nasa_id}
-              photo={photo}
-              addNewLike={(newLikedPhoto) => addNewLike(newLikedPhoto)}
-              removeLike={(id) => removeLike(id)}
-              isLikedImage={isLikedImage(photo.data[0].nasa_id)}
-            />
-          ))}
-        </Masonry>
+        {photos.map((photo) => (
+          <Card
+            key={photo.data[0].nasa_id}
+            photo={photo}
+            addNewLike={(newLikedPhoto) => addNewLike(newLikedPhoto)}
+            removeLike={(id) => removeLike(id)}
+            isLikedImage={isLikedImage(photo.data[0].nasa_id)}
+          />
+        ))}
       </section>
     )
   }

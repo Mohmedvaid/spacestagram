@@ -1,17 +1,21 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
 
-function Search({ getQuery }) {
-  const [text, setText] = useState("")
-  const [fromData, setFromData] = useState("")
-  const [toDate, setToDate] = useState("")
+function Search({ setSearchParams }) {
+  const [endYear, setEndYear] = useState("")
+  const [startYear, setStartYear] = useState("")
+  const [query, setQuery] = useState("")
   const [textError, setTextError] = useState(false)
 
-  const handleOnClick = () => {
-    if (text === "") {
+  const handleClick = () => {
+    if (query === "") {
       setTextError(true)
     } else {
-      getQuery(text.trim())
+      setSearchParams({
+        query,
+        startYear,
+        endYear,
+      })
     }
   }
 
@@ -36,8 +40,7 @@ function Search({ getQuery }) {
               type="text"
               className="form-control"
               placeholder="'stars', 'earth', 'apollo 11' etc"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
+              onChange={(e) => setQuery(e.target.value)}
             />
           </label>
           <div className={textError ? "invalid-val d-block" : "d-none"}>
@@ -51,9 +54,8 @@ function Search({ getQuery }) {
               id="fromDate"
               type="text"
               className="form-control"
-              placeholder="MM/DD/YYYY"
-              value={fromData}
-              onChange={(e) => setFromData(e.target.value)}
+              placeholder="YYYY"
+              onChange={(e) => setStartYear(e.target.value)}
             />
           </label>
         </div>
@@ -64,16 +66,15 @@ function Search({ getQuery }) {
               id="toDate"
               type="text"
               className="form-control"
-              placeholder="MM/DD/YYYY"
-              value={toDate}
-              onChange={(e) => setToDate(e.target.value)}
+              placeholder="YYYY"
+              onChange={(e) => setEndYear(e.target.value)}
             />
           </label>
         </div>
         <button
           type="submit"
           className="btn btn-primary search-btn m-3"
-          onClick={(e) => handleOnClick(e)}
+          onClick={(e) => handleClick(e)}
         >
           Search
         </button>
@@ -82,7 +83,7 @@ function Search({ getQuery }) {
   )
 }
 Search.propTypes = {
-  getQuery: PropTypes.func.isRequired,
+  setSearchParams: PropTypes.func.isRequired,
 }
 
 export default Search

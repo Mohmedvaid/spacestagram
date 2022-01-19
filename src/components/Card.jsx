@@ -28,57 +28,86 @@ function Card({ photo, addNewLike, removeLike, isLikedImage }) {
   }, [isLiked])
 
   return (
-    <div className="card m-auto mb-5" style={{ maxWidth: "1000px" }}>
-      <div className="row g-0">
-        <div className="col-md-8 d-flex align-item-center">
-          <img
-            loading="lazy"
-            className="img-fluid rounded-start"
-            src={imgSrc}
-            alt={`description: ${title}`}
-          />
-        </div>
-        <div className="col-md-4">
-          <div className="card-body h-100 d-flex flex-column justify-content-evenly ">
-            <h4 className="card-title text-dark text-center">{title}</h4>
-            <p className="text-dark text-center"> {data.description}</p>
-            <div className="d-flex justify-content-between align-items-center my-1">
-              {/* disbaling text selection on ancher below as clicking like button multiple times was highligting the date text */}
-              <button
-                type="button"
-                aria-label="toggle like"
-                className="likeBtn m-1 disable-text-selection"
-                tabIndex={0}
-                onClick={() => toggleLike()}
+    <article className="m-2">
+      <div className="card mb-3 max-w-500 m-auto">
+        <img
+          loading="lazy"
+          className="card-img-top"
+          src={imgSrc}
+          alt={`${title}`}
+        />
+        <div className="card-body">
+          <h5 className="card-title">{title}</h5>
+          {/* more info accordion starts */}
+          <div id={`accordion-${data.nasa_id}`}>
+            <div className="card">
+              <div
+                className="card-header"
+                id="headingOne"
+                style={{ backgroundColor: "none" }}
               >
-                {/* like icon */}
-                <span>
-                  {" "}
-                  {isLiked ? (
-                    <BsHeartFill size="2em" color="red" />
-                  ) : (
-                    <BsHeart size="2em" color="red" />
-                  )}
-                </span>
-              </button>
-              <button
-                type="button"
-                className="btn bg-fb-blue text-light btn-sm copyBtn m-1 cursor-pointer"
-                tabIndex={0}
-                onClick={() => copyImageUrl()}
+                <h5 className="mb-0">
+                  <button
+                    className="btn btn-link text-decoration-none max-width"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target={`#collapseOne-${data.nasa_id}`}
+                    aria-expanded="true"
+                    aria-controls="collapseOne"
+                  >
+                    More Info
+                  </button>
+                </h5>
+              </div>
+
+              <div
+                id={`collapseOne-${data.nasa_id}`}
+                className="collapse"
+                aria-labelledby="headingOne"
+                data-parent="#accordion"
               >
-                Copy Image URL
-              </button>
-              <p className="card-text text-dark">
-                <small aria-label="photo date" className="text-muted">
-                  {dateCreated}
-                </small>
-              </p>
+                <div className="card-body text-dark">{data.description}</div>
+              </div>
             </div>
           </div>
+          <div className="d-flex justify-content-between align-items-center my-1">
+            {/* disbaling text selection on ancher below as clicking like button multiple times was highligting the date text */}
+            <button
+              type="button"
+              aria-label="toggle like"
+              className="likeBtn m-1 disable-text-selection"
+              tabIndex={0}
+              aria-pressed={isLiked}
+              onClick={() => toggleLike()}
+            >
+              {/* like icon */}
+              <span>
+                {" "}
+                {isLiked ? (
+                  <BsHeartFill size="2em" color="red" />
+                ) : (
+                  <BsHeart size="2em" color="red" />
+                )}
+              </span>
+            </button>
+            <button
+              type="button"
+              className="btn bg-fb-blue text-light btn-sm copyBtn m-1 cursor-pointer"
+              tabIndex={0}
+              onClick={() => copyImageUrl()}
+            >
+              Copy Image URL
+            </button>
+            <p className="card-text text-dark">
+              <small aria-label="photo date" className="text-muted">
+                {dateCreated}
+              </small>
+            </p>
+          </div>
+          {/* accordion end */}
         </div>
       </div>
-    </div>
+    </article>
   )
 }
 

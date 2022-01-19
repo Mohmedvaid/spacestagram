@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Masonry } from "@mui/lab"
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
 import PropTypes from "prop-types"
 import Card from "./Card"
 import Spinner from "./ui/Spinner"
@@ -27,6 +27,9 @@ import Spinner from "./ui/Spinner"
 function Grid({ isLoading, photos }) {
   const savedPhotos = JSON.parse(localStorage.getItem("savedPhotos"))
   const [likedImages, setLikedImages] = useState(savedPhotos || [])
+  const [isMasonary, setIsMasonary] = useState(
+    JSON.parse(localStorage.getItem("isMasonary")) || false
+  )
 
   /**
    * checks if the image exists in the likedImages array
@@ -62,6 +65,14 @@ function Grid({ isLoading, photos }) {
     localStorage.setItem("savedPhotos", JSON.stringify(likesArr))
   }
 
+  /**
+   * toggles the masonary layout
+   */
+  const changeLayout = () => {
+    setIsMasonary(!isMasonary)
+    localStorage.setItem("isMasonary", JSON.stringify(!isMasonary))
+  }
+
   //  updated the likedImages array in local storage every time like is toggled
   useEffect(() => {
     saveLikes(likedImages)
@@ -72,16 +83,46 @@ function Grid({ isLoading, photos }) {
   }
   if (photos.length > 0) {
     return (
-      <section className="cards-grid">
-        {photos.map((photo) => (
-          <Card
-            key={photo.data[0].nasa_id}
-            photo={photo}
-            addNewLike={(newLikedPhoto) => addNewLike(newLikedPhoto)}
-            removeLike={(id) => removeLike(id)}
-            isLikedImage={isLikedImage(photo.data[0].nasa_id)}
-          />
-        ))}
+      <section className="cards-grid m-5">
+        <button
+          aria-label="toggle masonary layout"
+          type="button"
+          className="btn btn-light btn-sm d-none d-sm-block m-auto"
+          aria-pressed={isMasonary}
+          onClick={() => changeLayout()}
+        >
+          Toggle Masonary
+        </button>
+
+        {isMasonary ? (
+          <ResponsiveMasonry
+            columnsCountBreakPoints={{ 350: 1, 575: 2, 768: 3 }}
+          >
+            <Masonry>
+              {photos.map((photo) => (
+                <Card
+                  key={photo.data[0].nasa_id}
+                  photo={photo}
+                  addNewLike={(newLikedPhoto) => addNewLike(newLikedPhoto)}
+                  removeLike={(id) => removeLike(id)}
+                  isLikedImage={isLikedImage(photo.data[0].nasa_id)}
+                />
+              ))}
+            </Masonry>
+          </ResponsiveMasonry>
+        ) : (
+          <>
+            {photos.map((photo) => (
+              <Card
+                key={photo.data[0].nasa_id}
+                photo={photo}
+                addNewLike={(newLikedPhoto) => addNewLike(newLikedPhoto)}
+                removeLike={(id) => removeLike(id)}
+                isLikedImage={isLikedImage(photo.data[0].nasa_id)}
+              />
+            ))}
+          </>
+        )}
       </section>
     )
   }

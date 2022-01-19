@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { BsHeartFill, BsHeart } from "react-icons/bs"
 import PropTypes from "prop-types"
+import Accordion from "./ui/Accordion"
 
 function Card({ photo, addNewLike, removeLike, isLikedImage }) {
   const data = photo.data[0]
@@ -39,37 +40,11 @@ function Card({ photo, addNewLike, removeLike, isLikedImage }) {
         <div className="card-body">
           <h5 className="card-title text-dark">{title}</h5>
           {/* more info accordion starts */}
-          <div id={`accordion-${data.nasa_id}`}>
-            <div className="card">
-              <div
-                className="card-header"
-                id="headingOne"
-                style={{ backgroundColor: "none" }}
-              >
-                <h5 className="mb-0">
-                  <button
-                    className="btn btn-link text-decoration-none max-width"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target={`#collapseOne-${data.nasa_id}`}
-                    aria-expanded="true"
-                    aria-controls="collapseOne"
-                  >
-                    More Info
-                  </button>
-                </h5>
-              </div>
-
-              <div
-                id={`collapseOne-${data.nasa_id}`}
-                className="collapse"
-                aria-labelledby="headingOne"
-                data-parent="#accordion"
-              >
-                <div className="card-body text-dark">{data.description}</div>
-              </div>
-            </div>
-          </div>
+          <Accordion
+            id={data.nasa_id}
+            title="More info"
+            description={data.description}
+          />
           <div className="d-flex justify-content-between align-items-center my-1">
             {/* disbaling text selection on ancher below as clicking like button multiple times was highligting the date text */}
             <button

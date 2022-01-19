@@ -6,17 +6,42 @@ function Search({ setSearchParams }) {
   const [startYear, setStartYear] = useState("")
   const [query, setQuery] = useState("")
   const [textError, setTextError] = useState(false)
+  const [yearError, setYearError] = useState(false)
+  const isValidYear = (year) => !Number.isNaN(year) && year.length === 4
 
+  /**
+   * resets the errors
+   */
+  const resetErrors = () => {
+    setTextError(false)
+    setYearError(false)
+    setTextError(false)
+  }
+
+  /**
+   * validates and sets the search params
+   * @returns {boolean} true if the form is valid
+   */
   const handleClick = () => {
+    resetErrors()
     if (query === "") {
-      setTextError(true)
-    } else {
-      setSearchParams({
-        query,
-        startYear,
-        endYear,
-      })
+      return setTextError(true)
     }
+    if (!(startYear === "")) {
+      if (!isValidYear(startYear)) {
+        return setYearError(true)
+      }
+    }
+    if (!(endYear === "")) {
+      if (!isValidYear(endYear)) {
+        return setYearError(true)
+      }
+    }
+    return setSearchParams({
+      query,
+      startYear,
+      endYear,
+    })
   }
 
   return (
@@ -52,7 +77,7 @@ function Search({ setSearchParams }) {
             From Date
             <input
               id="fromDate"
-              type="text"
+              type="number"
               className="form-control"
               placeholder="YYYY"
               onChange={(e) => setStartYear(e.target.value)}
@@ -64,12 +89,15 @@ function Search({ setSearchParams }) {
             To Date
             <input
               id="toDate"
-              type="text"
+              type="number"
               className="form-control"
               placeholder="YYYY"
               onChange={(e) => setEndYear(e.target.value)}
             />
           </label>
+        </div>
+        <div className={yearError ? "invalid-val d-block" : "d-none"}>
+          <b>Please provide a valid year in YYYY format.</b>
         </div>
         <button
           type="submit"

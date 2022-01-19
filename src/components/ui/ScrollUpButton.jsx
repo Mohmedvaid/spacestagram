@@ -4,6 +4,9 @@ import { FaArrowCircleUp } from "react-icons/fa"
 function ScrollButton() {
   const [visible, setVisible] = useState(false)
 
+  /**
+   * sets visibility of scroll button
+   */
   const toggleVisible = () => {
     const scrolled = document.documentElement.scrollTop
     if (scrolled > 300) {
@@ -13,6 +16,9 @@ function ScrollButton() {
     }
   }
 
+  /**
+   * Scrolls to the top of the page
+   */
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,

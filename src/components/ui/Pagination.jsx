@@ -3,12 +3,20 @@ import PropTypes from "prop-types"
 
 function Pagination({ currentPage, prevPage, nextPage, handlePageChange }) {
   if (prevPage === 0 && nextPage === 0) return null
+
+  /**
+   * adds 1 to the current page number and calls handlePageChange
+   */
   const handleNextPage = () => {
     handlePageChange(currentPage + 1)
   }
+  /**
+   * deducts 1 from the currentPage and calls handlePageChange
+   */
   const handlePrevPage = () => {
     handlePageChange(currentPage - 1)
   }
+
   return (
     <nav aria-label="pagination">
       <ul className="pagination justify-content-center">
@@ -38,6 +46,7 @@ function Pagination({ currentPage, prevPage, nextPage, handlePageChange }) {
     </nav>
   )
 }
+
 Pagination.propTypes = {
   currentPage: PropTypes.number.isRequired,
   prevPage: PropTypes.number.isRequired,

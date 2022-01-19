@@ -9,10 +9,11 @@ function Card({ photo, addNewLike, removeLike, isLikedImage, cardMaxWidth }) {
   const { title } = data
   const dateCreated = new Date(data.date_created).toLocaleDateString("en-US")
   const [isLiked, setIsLiked] = useState(isLikedImage)
-  const toggleLike = () => {
-    setIsLiked(!isLiked)
-  }
+  const toggleLike = () => setIsLiked(!isLiked)
 
+  /**
+   * copies the image to the clipboard
+   */
   const copyImageUrl = async () => {
     if (navigator.clipboard) {
       await navigator.clipboard.writeText(imgSrc)

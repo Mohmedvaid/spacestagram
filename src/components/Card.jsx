@@ -37,7 +37,7 @@ function Card({ photo, addNewLike, removeLike, isLikedImage }) {
           alt={`${title}`}
         />
         <div className="card-body">
-          <h5 className="card-title">{title}</h5>
+          <h5 className="card-title text-dark">{title}</h5>
           {/* more info accordion starts */}
           <div id={`accordion-${data.nasa_id}`}>
             <div className="card">

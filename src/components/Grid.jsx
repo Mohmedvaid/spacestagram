@@ -91,7 +91,7 @@ function Grid({ isLoading, photos }) {
           aria-pressed={isMasonary}
           onClick={() => changeLayout()}
         >
-          Toggle Masonary
+          Toggle Masonary View
         </button>
 
         {isMasonary ? (

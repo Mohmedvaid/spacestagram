@@ -2,7 +2,7 @@
 
 ## About
 
-Spacestagram helps users explore images from nasa pets across cities and towns. [Explore Spacestgram](https://mohmedvaid.github.io/spacestagram/)<br /> Please let me know if you see extra extra terrestrial! <img alt="Alien" src="readme_images/alien.png" width=24><br />
+Spacestagram helps users explore images from nasa pets across cities and towns. [Explore Spacestgram](https://mohmedvaid.github.io/spacestagram/)<br /> Please let me know if you see extra terrestrials! <img alt="Alien" src="readme_images/alien.png" width=24><br />
 <img alt="Home page demo" src="readme_images/hero.png" width="50%">
 
 ## Table of Contents

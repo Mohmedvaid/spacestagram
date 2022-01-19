@@ -106,6 +106,7 @@ function Grid({ isLoading, photos }) {
                   addNewLike={(newLikedPhoto) => addNewLike(newLikedPhoto)}
                   removeLike={(id) => removeLike(id)}
                   isLikedImage={isLikedImage(photo.data[0].nasa_id)}
+                  cardMaxWidth="500px"
                 />
               ))}
             </Masonry>
@@ -119,6 +120,7 @@ function Grid({ isLoading, photos }) {
                 addNewLike={(newLikedPhoto) => addNewLike(newLikedPhoto)}
                 removeLike={(id) => removeLike(id)}
                 isLikedImage={isLikedImage(photo.data[0].nasa_id)}
+                cardMaxWidth="800px"
               />
             ))}
           </>

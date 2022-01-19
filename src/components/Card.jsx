@@ -3,7 +3,7 @@ import { BsHeartFill, BsHeart } from "react-icons/bs"
 import PropTypes from "prop-types"
 import Accordion from "./ui/Accordion"
 
-function Card({ photo, addNewLike, removeLike, isLikedImage }) {
+function Card({ photo, addNewLike, removeLike, isLikedImage, cardMaxWidth }) {
   const data = photo.data[0]
   const imgSrc = photo.links[0].href
   const { title } = data
@@ -30,7 +30,7 @@ function Card({ photo, addNewLike, removeLike, isLikedImage }) {
 
   return (
     <article className="m-2">
-      <div className="card mb-3 max-w-500 m-auto">
+      <div className="card mb-3 m-auto" style={{ maxWidth: cardMaxWidth }}>
         <img
           loading="lazy"
           className="card-img-top"
@@ -86,11 +86,13 @@ function Card({ photo, addNewLike, removeLike, isLikedImage }) {
   )
 }
 
+Card.defaultProps = { cardMaxWidth: "100%" }
 Card.propTypes = {
   photo: PropTypes.instanceOf(Object).isRequired,
   addNewLike: PropTypes.func.isRequired,
   removeLike: PropTypes.func.isRequired,
   isLikedImage: PropTypes.bool.isRequired,
+  cardMaxWidth: PropTypes.string,
 }
 
 export default Card

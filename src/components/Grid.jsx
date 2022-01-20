@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
 import PropTypes from "prop-types"
 import Card from "./Card"
+import Spinner from "./ui/Spinner"
 
 /**
  *
@@ -77,6 +78,9 @@ function Grid({ isLoading, photos }) {
     saveLikes(likedImages)
   }, [likedImages])
 
+  if (isLoading) {
+    return <Spinner />
+  }
   if (photos.length > 0) {
     return (
       <section className="cards-grid">

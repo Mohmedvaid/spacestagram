@@ -30,11 +30,11 @@ function Card({ photo, addNewLike, removeLike, isLikedImage, cardMaxWidth }) {
   }, [isLiked])
 
   return (
-    <article className="m-2 max-w-500 mx-auto">
+    <article className="m-2">
       <div className="card mb-3 m-auto" style={{ maxWidth: cardMaxWidth }}>
         <img
           loading="lazy"
-          className="card-img-top fit-image-cover"
+          className="card-img-top fit-cover h-400px"
           src={imgSrc}
           alt={`${title}`}
         />

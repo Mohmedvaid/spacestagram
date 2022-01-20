@@ -78,9 +78,12 @@ h1 {
   color: #fff;
 }
 
-.fit-image-cover{
-  height: 500px;
+.fit-cover {
   object-fit: cover;
+}
+
+.h-400px {
+  height: 400px;
 }
 
 /* header styles */
@@ -141,4 +144,3 @@ h1 {
     margin-bottom: 1rem !important;
   }
 }
-

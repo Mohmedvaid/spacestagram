@@ -21,7 +21,7 @@ function Accordion({ id, title, description }) {
         </h2>
         <div
           id={`flush-collapse${id}`}
-          className={`accordion-body collapse ${isOpen ? "show" : ""}`}
+          className={`accordion-body collapse p-1 ${isOpen ? "show" : ""}`}
           aria-labelledby="flush-headingOne"
           data-bs-parent={`#accordion${id}`}
         >

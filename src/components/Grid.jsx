@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react"
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
 import PropTypes from "prop-types"
 import Card from "./Card"
-import Spinner from "./ui/Spinner"
 
 /**
  *
@@ -78,9 +77,6 @@ function Grid({ isLoading, photos }) {
     saveLikes(likedImages)
   }, [likedImages])
 
-  if (isLoading) {
-    return <Spinner />
-  }
   if (photos.length > 0) {
     return (
       <section className="cards-grid">
@@ -95,20 +91,24 @@ function Grid({ isLoading, photos }) {
         </button>
 
         {isMasonary ? (
-          <div className="d-flex justify-content-around flex-wrap">
-            {photos.map((photo) => (
-              <Card
-                key={photo.data[0].nasa_id}
-                photo={photo}
-                addNewLike={(newLikedPhoto) => addNewLike(newLikedPhoto)}
-                removeLike={(id) => removeLike(id)}
-                isLikedImage={isLikedImage(photo.data[0].nasa_id)}
-                cardMaxWidth="500px"
-              />
-            ))}
-          </div>
+          <ResponsiveMasonry
+            columnsCountBreakPoints={{ 350: 1, 575: 2, 768: 3 }}
+          >
+            <Masonry>
+              {photos.map((photo) => (
+                <Card
+                  key={photo.data[0].nasa_id}
+                  photo={photo}
+                  addNewLike={(newLikedPhoto) => addNewLike(newLikedPhoto)}
+                  removeLike={(id) => removeLike(id)}
+                  isLikedImage={isLikedImage(photo.data[0].nasa_id)}
+                  cardMaxWidth="500px"
+                />
+              ))}
+            </Masonry>
+          </ResponsiveMasonry>
         ) : (
-          <div className="justify-content-center">
+          <>
             {photos.map((photo) => (
               <Card
                 key={photo.data[0].nasa_id}
@@ -119,7 +119,7 @@ function Grid({ isLoading, photos }) {
                 cardMaxWidth="800px"
               />
             ))}
-          </div>
+          </>
         )}
       </section>
     )

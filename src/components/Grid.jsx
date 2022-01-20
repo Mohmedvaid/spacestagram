@@ -95,24 +95,20 @@ function Grid({ isLoading, photos }) {
         </button>
 
         {isMasonary ? (
-          <ResponsiveMasonry
-            columnsCountBreakPoints={{ 350: 1, 575: 2, 768: 3 }}
-          >
-            <Masonry>
-              {photos.map((photo) => (
-                <Card
-                  key={photo.data[0].nasa_id}
-                  photo={photo}
-                  addNewLike={(newLikedPhoto) => addNewLike(newLikedPhoto)}
-                  removeLike={(id) => removeLike(id)}
-                  isLikedImage={isLikedImage(photo.data[0].nasa_id)}
-                  cardMaxWidth="500px"
-                />
-              ))}
-            </Masonry>
-          </ResponsiveMasonry>
+          <div className="d-flex justify-content-around flex-wrap">
+            {photos.map((photo) => (
+              <Card
+                key={photo.data[0].nasa_id}
+                photo={photo}
+                addNewLike={(newLikedPhoto) => addNewLike(newLikedPhoto)}
+                removeLike={(id) => removeLike(id)}
+                isLikedImage={isLikedImage(photo.data[0].nasa_id)}
+                cardMaxWidth="500px"
+              />
+            ))}
+          </div>
         ) : (
-          <>
+          <div className="justify-content-center">
             {photos.map((photo) => (
               <Card
                 key={photo.data[0].nasa_id}
@@ -123,7 +119,7 @@ function Grid({ isLoading, photos }) {
                 cardMaxWidth="800px"
               />
             ))}
-          </>
+          </div>
         )}
       </section>
     )

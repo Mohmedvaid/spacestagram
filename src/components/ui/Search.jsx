@@ -7,7 +7,12 @@ function Search({ setSearchParams }) {
   const [query, setQuery] = useState("")
   const [textError, setTextError] = useState(false)
   const [yearError, setYearError] = useState(false)
-  const isValidYear = (year) => !Number.isNaN(year) && year.length === 4
+  const isValidYear = (year) => {
+    if (year.length === 4 && Number(year)) {
+      return true
+    }
+    return false
+  }
 
   /**
    * resets the errors

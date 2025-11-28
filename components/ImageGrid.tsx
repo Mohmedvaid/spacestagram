@@ -4,12 +4,25 @@ import { PhotoItem } from "@/lib/api";
 import { ImageCard } from "./ImageCard";
 import { Loader2 } from "lucide-react";
 
+/**
+ * Props for the ImageGrid component
+ */
 interface ImageGridProps {
+  /** Array of NASA photo items to display */
   photos: PhotoItem[];
+  /** Whether images are currently loading */
   loading?: boolean;
+  /** Optional callback when an image is clicked */
   onImageClick?: (item: PhotoItem) => void;
 }
 
+/**
+ * ImageGrid component displays a responsive grid of NASA images
+ * Shows loading state, empty state, or grid of ImageCard components
+ * 
+ * @param props - Component props
+ * @returns Grid component with images or loading/empty states
+ */
 export function ImageGrid({ photos, loading, onImageClick }: ImageGridProps) {
   if (loading) {
     return (

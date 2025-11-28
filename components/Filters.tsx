@@ -3,14 +3,29 @@
 import { Sliders } from "lucide-react";
 import { MIN_YEAR, getMaxYear } from "@/lib/constants";
 
+/**
+ * Props for the Filters component
+ */
 interface FiltersProps {
+  /** Start year filter value (YYYY format) */
   startYear: string;
+  /** End year filter value (YYYY format) */
   endYear: string;
+  /** Callback when start year changes */
   onStartYearChange: (year: string) => void;
+  /** Callback when end year changes */
   onEndYearChange: (year: string) => void;
+  /** Callback to reset all filters */
   onReset: () => void;
 }
 
+/**
+ * Filters component provides date range filtering using date pickers
+ * Converts date selections to year values for API compatibility
+ * 
+ * @param props - Component props
+ * @returns Filter component with date pickers
+ */
 export function Filters({
   startYear,
   endYear,

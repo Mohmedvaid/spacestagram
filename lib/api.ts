@@ -6,19 +6,35 @@ import {
   DEFAULT_PAGE,
 } from "./constants";
 
+/**
+ * Parameters for building NASA API URL
+ */
 export interface ApiParams {
+  /** Search query string */
   query: string;
+  /** Page number (default: 1) */
   page?: number;
+  /** Start year filter (YYYY format) */
   startYear?: string;
+  /** End year filter (YYYY format) */
   endYear?: string;
 }
 
+/**
+ * API response wrapper
+ */
 export interface ApiResponse {
+  /** Whether the request was successful */
   success: boolean;
+  /** Response data if successful */
   data?: any;
+  /** Error message if failed */
   error?: string;
 }
 
+/**
+ * NASA image item structure from API
+ */
 export interface PhotoItem {
   href: string;
   data: Array<{
@@ -41,6 +57,9 @@ export interface PhotoItem {
   }>;
 }
 
+/**
+ * Image link structure from NASA API
+ */
 export interface ImageLink {
   href: string;
   rel: string;
@@ -50,6 +69,13 @@ export interface ImageLink {
   size?: number;
 }
 
+/**
+ * Gets the image URL for a specific size from a PhotoItem
+ * 
+ * @param item - NASA photo item
+ * @param size - Desired image size (default: 'medium')
+ * @returns Image URL or null if not found
+ */
 export function getImageUrl(item: PhotoItem, size: 'thumb' | 'small' | 'medium' | 'large' | 'orig' = 'medium'): string | null {
   if (!item.links || item.links.length === 0) return null;
   
@@ -57,6 +83,12 @@ export function getImageUrl(item: PhotoItem, size: 'thumb' | 'small' | 'medium' 
   return link?.href || item.links[0]?.href || null;
 }
 
+/**
+ * Extracts and normalizes metadata from a PhotoItem
+ * 
+ * @param item - NASA photo item
+ * @returns Normalized metadata object with safe defaults
+ */
 export function getImageMetadata(item: PhotoItem) {
   const data = item.data[0];
   return {
@@ -70,12 +102,18 @@ export function getImageMetadata(item: PhotoItem) {
   };
 }
 
+/**
+ * Pagination link from NASA API
+ */
 export interface PaginationLink {
   href: string;
   rel: string;
   prompt?: string;
 }
 
+/**
+ * Extracted photos and pagination information
+ */
 export interface PhotosAndPagination {
   photos: PhotoItem[];
   paginationLinks: PaginationLink[];
@@ -106,21 +144,45 @@ export const buildApiUrl = ({
 
 /**
  * Fetch images from NASA API
+ * 
+ * @param url - NASA API URL
+ * @param signal - Optional AbortSignal to cancel the request
+ * @returns Promise with API response
  */
-export const fetchNasaImages = async (url: string): Promise<ApiResponse> => {
+export const fetchNasaImages = async (
+  url: string,
+  signal?: AbortSignal
+): Promise<ApiResponse> => {
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(url, { signal });
     return {
       success: true,
       data: response.data,
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
+    // Handle abort errors
+    if (axios.isCancel(error) || (error as Error)?.name === "AbortError") {
+      return {
+        success: false,
+        error: "Request cancelled",
+      };
+    }
+
+    // Handle axios errors
+    if (axios.isAxiosError(error)) {
+      return {
+        success: false,
+        error:
+          error.response?.data?.reason ||
+          error.message ||
+          "Failed to fetch images",
+      };
+    }
+
+    // Handle other errors
     return {
       success: false,
-      error:
-        error.response?.data?.reason ||
-        error.message ||
-        "Failed to fetch images",
+      error: error instanceof Error ? error.message : "Failed to fetch images",
     };
   }
 };

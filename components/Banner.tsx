@@ -1,28 +1,43 @@
 "use client";
 
 import { Search } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
+/**
+ * Props for the Banner component
+ */
 interface BannerProps {
+  /** Callback function when search is submitted */
   onSearch: (query: string) => void;
 }
 
+/**
+ * Banner component displays the search bar with popular search tags
+ * Features a background image with overlay and centered search interface
+ * 
+ * @param props - Component props
+ * @returns Banner component with search functionality
+ */
 export function Banner({ onSearch }: BannerProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const popularSearches = [
-    "galaxy",
-    "nebula",
-    "mars",
-    "saturn",
-    "black hole",
-    "earth",
-    "jupiter",
-    "moon",
-    "stars",
-    "astronaut",
-    "space",
-    "cosmos",
-  ];
+  
+  const popularSearches = useMemo(
+    () => [
+      "galaxy",
+      "nebula",
+      "mars",
+      "saturn",
+      "black hole",
+      "earth",
+      "jupiter",
+      "moon",
+      "stars",
+      "astronaut",
+      "space",
+      "cosmos",
+    ],
+    []
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

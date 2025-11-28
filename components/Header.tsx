@@ -2,12 +2,25 @@
 
 import { ThemeToggle } from "./ThemeToggle";
 
+/**
+ * Props for the Header component
+ */
 interface HeaderProps {
+  /** Callback function when search is triggered (currently unused) */
   onSearch: (query: string) => void;
+  /** Initial search query (currently unused) */
   initialQuery?: string;
+  /** Whether to show search in header (currently unused) */
   showSearch?: boolean;
 }
 
+/**
+ * Header component displays the app logo and theme toggle
+ * Sticky header that stays at the top while scrolling
+ * 
+ * @param props - Component props
+ * @returns Header component with logo and theme toggle
+ */
 export function Header({ onSearch, initialQuery = "", showSearch = false }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/75 dark:border-slate-700 dark:bg-slate-800/95 dark:supports-[backdrop-filter]:dark:bg-slate-800/75 overflow-visible">

@@ -1,18 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo } from "react";
 
+/**
+ * Props for the ContentHeader component
+ */
 interface ContentHeaderProps {
+  /** Total number of images displayed */
   totalImages: number;
+  /** Current sort option */
   sortBy: string;
+  /** Callback when sort option changes */
   onSortChange: (sort: string) => void;
 }
 
+/**
+ * ContentHeader component displays image count and sorting options
+ * 
+ * @param props - Component props
+ * @returns Header component with count and sort buttons
+ */
 export function ContentHeader({ totalImages, sortBy, onSortChange }: ContentHeaderProps) {
-  const sortOptions = [
-    { value: "latest", label: "Latest" },
-    { value: "popular", label: "Editor's Choice" },
-  ];
+  const sortOptions = useMemo(
+    () => [
+      { value: "latest", label: "Latest" },
+      { value: "popular", label: "Editor's Choice" },
+    ],
+    []
+  );
 
   return (
     <div className="border-b border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800">

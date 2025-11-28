@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { Header } from "@/components/Header";
 import { Banner } from "@/components/Banner";
 import { Filters } from "@/components/Filters";
@@ -16,6 +16,12 @@ import {
 } from "@/lib/api";
 import { DEFAULT_QUERY } from "@/lib/constants";
 
+/**
+ * Main Home page component
+ * Handles image search, filtering, sorting, and pagination
+ * 
+ * @returns Home page component
+ */
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState(DEFAULT_QUERY);
   const [startYear, setStartYear] = useState("");
@@ -29,10 +35,19 @@ export default function Home() {
   const [hasMore, setHasMore] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [sortBy, setSortBy] = useState("popular");
-  const [sortedPhotos, setSortedPhotos] = useState<PhotoItem[]>([]);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const loadImages = useCallback(
     async (query: string, yearStart?: string, yearEnd?: string, pageNum: number = 1) => {
+      // Cancel previous request if still pending
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+
+      // Create new abort controller for this request
+      abortControllerRef.current = new AbortController();
+      const signal = abortControllerRef.current.signal;
+
       setLoading(true);
       setError(null);
 
@@ -44,7 +59,10 @@ export default function Home() {
           endYear: yearEnd,
         });
 
-        const response = await fetchNasaImages(url);
+        const response = await fetchNasaImages(url, signal);
+
+        // Check if request was aborted
+        if (signal.aborted) return;
 
         if (response.success && response.data) {
           const { photos: fetchedPhotos, paginationLinks } = extractPhotosAndPagination(response.data);
@@ -59,25 +77,29 @@ export default function Home() {
         } else {
           setError(response.error || "Failed to fetch images");
           setPhotos([]);
-          setSortedPhotos([]);
           setHasMore(false);
         }
-      } catch (err) {
-        setError("An unexpected error occurred");
+      } catch (err: unknown) {
+        // Don't set error if request was aborted
+        if (signal.aborted) return;
+
+        const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred";
+        setError(errorMessage);
         setPhotos([]);
-        setSortedPhotos([]);
+        setHasMore(false);
       } finally {
-        setLoading(false);
+        if (!signal.aborted) {
+          setLoading(false);
+        }
       }
     },
     []
   );
 
   // Sort photos based on sortBy value
-  useEffect(() => {
+  const sortedPhotos = useMemo(() => {
     if (photos.length === 0) {
-      setSortedPhotos([]);
-      return;
+      return [];
     }
 
     const sorted = [...photos].sort((a, b) => {
@@ -93,7 +115,7 @@ export default function Home() {
       }
     });
 
-    setSortedPhotos(sorted);
+    return sorted;
   }, [photos, sortBy]);
 
   // Initial load on mount
@@ -169,9 +191,11 @@ export default function Home() {
       } else {
         setHasMore(false);
       }
-    } catch (err) {
-      setHasMore(false);
-    } finally {
+      } catch (err: unknown) {
+        const errorMessage = err instanceof Error ? err.message : "Failed to load more images";
+        setError(errorMessage);
+        setHasMore(false);
+      } finally {
       setLoadingMore(false);
     }
   };
@@ -213,7 +237,7 @@ export default function Home() {
 
         {hasSearched && (
           <ImageGrid
-            photos={sortedPhotos.length > 0 ? sortedPhotos : photos}
+            photos={sortedPhotos}
             loading={loading}
             onImageClick={handleImageClick}
           />

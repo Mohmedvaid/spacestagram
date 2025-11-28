@@ -4,14 +4,29 @@ import { useEffect } from "react";
 import Image from "next/image";
 import { X, Calendar, User, ExternalLink, Download } from "lucide-react";
 import { PhotoItem, getImageUrl, getImageMetadata } from "@/lib/api";
+import { formatDate } from "@/lib/utils";
 
+/**
+ * Props for the ImageModal component
+ */
 interface ImageModalProps {
+  /** NASA image item to display in modal, null if closed */
   item: PhotoItem | null;
+  /** Whether the modal is open */
   isOpen: boolean;
+  /** Callback to close the modal */
   onClose: () => void;
 }
 
+/**
+ * ImageModal component displays a full-screen modal with detailed image information
+ * Prevents body scrolling when open and handles keyboard/click outside to close
+ * 
+ * @param props - Component props
+ * @returns Modal component or null if not open
+ */
 export function ImageModal({ item, isOpen, onClose }: ImageModalProps) {
+  // Prevent body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -23,25 +38,27 @@ export function ImageModal({ item, isOpen, onClose }: ImageModalProps) {
     };
   }, [isOpen]);
 
+  // Handle Escape key to close modal
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen || !item) return null;
 
   const metadata = getImageMetadata(item);
   const largeImageUrl = getImageUrl(item, "large") || getImageUrl(item, "medium");
   const originalImageUrl = getImageUrl(item, "orig");
-
-  const formatDate = (dateString: string) => {
-    if (!dateString) return "";
-    try {
-      const date = new Date(dateString);
-      return date.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
-    } catch {
-      return dateString;
-    }
-  };
 
   return (
     <div
@@ -118,7 +135,7 @@ export function ImageModal({ item, isOpen, onClose }: ImageModalProps) {
                 <Calendar className="h-5 w-5 text-slate-500 dark:text-slate-400" />
                 <div>
                   <p className="text-sm text-slate-600 dark:text-slate-400">Date Created</p>
-                  <p className="text-slate-900 dark:text-white">{formatDate(metadata.dateCreated)}</p>
+                  <p className="text-slate-900 dark:text-white">{formatDate(metadata.dateCreated, { format: "long" })}</p>
                 </div>
               </div>
             )}

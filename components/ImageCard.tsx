@@ -6,31 +6,29 @@ import { ExternalLink } from "lucide-react";
 import { PhotoItem, getImageUrl, getImageMetadata } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
+/**
+ * Props for the ImageCard component
+ */
 interface ImageCardProps {
+  /** NASA image item to display */
   item: PhotoItem;
+  /** Optional callback when image is clicked */
   onImageClick?: (item: PhotoItem) => void;
 }
 
+/**
+ * ImageCard component displays a single NASA image in a card format
+ * with hover effects and click handling
+ * 
+ * @param props - Component props
+ * @returns Image card component or null if no image URL available
+ */
 export function ImageCard({ item, onImageClick }: ImageCardProps) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const metadata = getImageMetadata(item);
   const imageUrl = getImageUrl(item, "medium");
   const thumbUrl = getImageUrl(item, "thumb");
-
-  const formatDate = (dateString: string) => {
-    if (!dateString) return "";
-    try {
-      const date = new Date(dateString);
-      return date.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
-    } catch {
-      return dateString;
-    }
-  };
 
   if (!imageUrl && !thumbUrl) {
     return null;

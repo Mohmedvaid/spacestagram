@@ -7,16 +7,20 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main branch
+      - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -32,64 +36,26 @@ jobs:
         env:
           NODE_ENV: production
 
-      - name: Verify build output
+      - name: Prepare deployment directory
         run: |
-          if [ ! -d "out" ] || [ -z "$(ls -A out)" ]; then
-            echo "Error: Build output directory 'out' is missing or empty"
-            ls -la
-            exit 1
-          fi
-          echo "Build output verified:"
-          ls -la out/ | head -20
+          mkdir -p deploy/spacestagram
+          cp -r out/* deploy/spacestagram/
+          touch deploy/.nojekyll
+          echo "Build output prepared:"
+          ls -la deploy/spacestagram/ | head -20
 
-      - name: Setup Git
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./deploy
 
-      - name: Prepare deployment
-        run: |
-          # Create a temporary directory to store build output
-          mkdir -p ../deploy-temp
-          cp -r out/* ../deploy-temp/ || {
-            echo "Error: Failed to copy build output"
-            exit 1
-          }
-
-      - name: Checkout gh-pages branch or create it
-        run: |
-          git fetch origin gh-pages:gh-pages || true
-          if git show-ref --verify --quiet refs/heads/gh-pages; then
-            git checkout gh-pages
-            git clean -fd
-          else
-            git checkout --orphan gh-pages
-            git rm -rf . || true
-          fi
-
-      - name: Copy build output to spacestagram directory
-        run: |
-          mkdir -p spacestagram
-          rm -rf spacestagram/*
-          cp -r ../deploy-temp/* spacestagram/ || {
-            echo "Error: Failed to copy files to spacestagram directory"
-            ls -la ../deploy-temp/ | head -20
-            exit 1
-          }
-          echo "Files copied successfully:"
-          ls -la spacestagram/ | head -20
-
-      - name: Add .nojekyll file
-        run: |
-          touch .nojekyll
-          echo "Disabling Jekyll processing for GitHub Pages"
-
-      - name: Commit and push
-        run: |
-          git add -A
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "Deploy Spacestagram to GitHub Pages [skip ci]"
-            git push origin gh-pages --force
-          fi
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

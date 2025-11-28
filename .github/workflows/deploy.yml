@@ -32,10 +32,29 @@ jobs:
         env:
           NODE_ENV: production
 
+      - name: Verify build output
+        run: |
+          if [ ! -d "out" ] || [ -z "$(ls -A out)" ]; then
+            echo "Error: Build output directory 'out' is missing or empty"
+            ls -la
+            exit 1
+          fi
+          echo "Build output verified:"
+          ls -la out/ | head -20
+
       - name: Setup Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Prepare deployment
+        run: |
+          # Create a temporary directory to store build output
+          mkdir -p ../deploy-temp
+          cp -r out/* ../deploy-temp/ || {
+            echo "Error: Failed to copy build output"
+            exit 1
+          }
 
       - name: Checkout gh-pages branch or create it
         run: |
@@ -52,7 +71,13 @@ jobs:
         run: |
           mkdir -p spacestagram
           rm -rf spacestagram/*
-          cp -r out/* spacestagram/
+          cp -r ../deploy-temp/* spacestagram/ || {
+            echo "Error: Failed to copy files to spacestagram directory"
+            ls -la ../deploy-temp/ | head -20
+            exit 1
+          }
+          echo "Files copied successfully:"
+          ls -la spacestagram/ | head -20
 
       - name: Add .nojekyll file
         run: |

@@ -38,11 +38,15 @@ jobs:
 
       - name: Prepare deployment directory
         run: |
-          mkdir -p deploy/spacestagram
-          cp -r out/* deploy/spacestagram/
+          mkdir -p deploy
+          cp -r out/* deploy/
           touch deploy/.nojekyll
           echo "Build output prepared:"
-          ls -la deploy/spacestagram/ | head -20
+          ls -la deploy/ | head -20
+          echo "Checking for index.html:"
+          ls -la deploy/index.html || echo "index.html not found in root"
+          echo "Checking _next directory:"
+          ls -la deploy/_next/ | head -10 || echo "_next directory not found"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

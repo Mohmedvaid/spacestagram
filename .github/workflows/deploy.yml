@@ -17,13 +17,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -40,11 +39,13 @@ jobs:
 
       - name: Checkout gh-pages branch or create it
         run: |
-          if git ls-remote --heads origin gh-pages | grep -q gh-pages; then
+          git fetch origin gh-pages:gh-pages || true
+          if git show-ref --verify --quiet refs/heads/gh-pages; then
             git checkout gh-pages
+            git clean -fd
           else
             git checkout --orphan gh-pages
-            git rm -rf .
+            git rm -rf . || true
           fi
 
       - name: Copy build output to spacestagram directory
@@ -53,12 +54,17 @@ jobs:
           rm -rf spacestagram/*
           cp -r out/* spacestagram/
 
+      - name: Add .nojekyll file
+        run: |
+          touch .nojekyll
+          echo "Disabling Jekyll processing for GitHub Pages"
+
       - name: Commit and push
         run: |
-          git add spacestagram/
+          git add -A
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
             git commit -m "Deploy Spacestagram to GitHub Pages [skip ci]"
-            git push origin gh-pages
+            git push origin gh-pages --force
           fi
